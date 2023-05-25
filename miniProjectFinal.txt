@@ -1,0 +1,155 @@
+SQL> connect miniproject;
+Enter password:
+Connected.
+
+******************************* TABLES **********************************
+SQL> create table emp_data (eid int primary key, ename varchar(50), username varchar(50),password varchar(100));
+
+Table created.
+
+SQL> CREATE TABLE ROOM_DATA (RM_NO INT PRIMARY KEY, R_CATEGORY VARCHAR(15), PRICE INT, B_STAT VARCHAR(15),CL_STAT VARCHAR(10));
+
+Table created.
+
+SQL> create table bill_data (b_id int primary key,btotal int,paymethod varchar(15),paydate date,res_id int);
+
+Table created.
+
+SQL> create table History (h_id int,name varchar(50),phone int,indate varchar(30),outdate varchar(30),id_proof varchar(30),billno int);
+
+Table created.
+
+SQL> create table curr_res (rid int primary key,cname varchar(50),phone number(12),email varchar(100),age int,noadults int,nochild int,idtype varchar(15),idno varchar(50),address varchar(100),checkin date,checkout date,roomno int,billid int);
+
+Table created.
+
+******************************* SEQUENCES **********************************
+SQL> create sequence emp_seq
+  2  start with 101
+  3  increment by 1
+  4  minvalue 101
+  5  maxvalue 1000
+  6  cycle;
+
+Sequence created.
+
+SQL> create sequence res_seq
+  2  start with 4001
+  3  increment by 1
+  4  minvalue 4001
+  5  maxvalue 10000
+  6  cycle;
+
+Sequence created.
+
+SQL> create sequence bill_seq
+  2  start with 4001
+  3  increment by 1
+  4  minvalue 4001
+  5  maxvalue 10000
+  6  cycle;
+
+Sequence created.
+
+
+
+******************************* VIEWS **********************************
+SQL>  create view active_res as select roomno,cname,checkin,phone from curr_res;
+
+View created.
+
+SQL> create view Search_cust as select CNAME,PHONE,EMAIL,CHECKIN,CL_STAT,roomno from curr_res inner join room_data on RM_NO=roomno;
+
+View created.
+
+SQL>  create view btotal as select roomno,(ceil(checkout-checkin))*price as btot,ceil(checkout-checkin) as noofdays from curr_res inner join room_data on roomno=rm_no;
+
+View created.
+
+
+******************************* DESC TABLES **********************************
+SQL> desc emp_data;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                       NOT NULL NUMBER(38)
+ ENAME                                              VARCHAR2(50)
+ USERNAME                                           VARCHAR2(50)
+ PASSWORD                                           VARCHAR2(100)
+
+SQL> desc ROOM_DATA;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RM_NO                                     NOT NULL NUMBER(38)
+ R_CATEGORY                                         VARCHAR2(15)
+ PRICE                                              NUMBER(38)
+ B_STAT                                             VARCHAR2(15)
+ CL_STAT                                            VARCHAR2(10)
+
+SQL> desc curr_res;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RID                                       NOT NULL NUMBER(38)
+ CNAME                                              VARCHAR2(50)
+ PHONE                                              NUMBER(12)
+ EMAIL                                              VARCHAR2(100)
+ AGE                                                NUMBER(38)
+ NOADULTS                                           NUMBER(38)
+ NOCHILD                                            NUMBER(38)
+ IDTYPE                                             VARCHAR2(15)
+ IDNO                                               VARCHAR2(50)
+ ADDRESS                                            VARCHAR2(100)
+ CHECKIN                                            DATE
+ CHECKOUT                                           DATE
+ ROOMNO                                             NUMBER(38)
+ BILLID                                             NUMBER(38)
+
+SQL> desc bill_data;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ B_ID                                      NOT NULL NUMBER(38)
+ BTOTAL                                             NUMBER(38)
+ PAYMETHOD                                          VARCHAR2(15)
+ PAYDATE                                            DATE
+ RES_ID                                             NUMBER(38)
+
+SQL> desc History;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ H_ID                                               NUMBER(38)
+ NAME                                               VARCHAR2(50)
+ PHONE                                              NUMBER(38)
+ INDATE                                             VARCHAR2(30)
+ OUTDATE                                            VARCHAR2(30)
+ ID_PROOF                                           VARCHAR2(30)
+ BILLNO                                             NUMBER(38)
+
+
+
+******************************* DESC VIEWS **********************************
+
+SQL> desc active_res;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROOMNO                                             NUMBER(38)
+ CNAME                                              VARCHAR2(50)
+ CHECKIN                                            DATE
+ PHONE                                              NUMBER(12)
+
+SQL> desc Search_cust;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CNAME                                              VARCHAR2(50)
+ PHONE                                              NUMBER(12)
+ EMAIL                                              VARCHAR2(100)
+ CHECKIN                                            DATE
+ CL_STAT                                            VARCHAR2(10)
+ ROOMNO                                             NUMBER(38)
+
+SQL> desc btotal;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROOMNO                                             NUMBER(38)
+ BTOT                                               NUMBER
+ NOOFDAYS                                           NUMBER
+
+SQL>
